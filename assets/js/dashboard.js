@@ -17,9 +17,9 @@ observeAuth(async user => {
     const resolvedFavoriteCity = profile?.favoriteCity || 'No Added'
 
     userNameElement.textContent = resolvedName
-    navUserNameElement.textContent = resolvedName
-    userEmailElement.textContent = resolvedEmail
-    userFavoriteCityElement.textContent = resolvedFavoriteCity
+    // navUserNameElement.textContent = resolvedName
+    // userEmailElement.textContent = resolvedEmail
+    // userFavoriteCityElement.textContent = resolvedFavoriteCity
 })
 
 logoutBtn.addEventListener('click', async () => {

@@ -3,7 +3,7 @@
     signInWithEmailAndPassword,
     signOut,
     onAuthStateChanged
- } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-Auth.js";
+ } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
 
  import { 
     doc, setDoc, getDoc, serverTimestamp
@@ -45,8 +45,8 @@ export async function loginUser(email, password) {
 }
 
 export async function getCurrentUserProfile() {
-    const doc = doc(db, 'users', uid)
-    const user = await getDoc(doc)
+    const docUser = doc(db, 'users', uid)
+    const user = await getDoc(docUser)
     
       if (user.exists()) return null
     return user.data()
@@ -83,8 +83,15 @@ export function getFirebaseErrorMessage(error) {
 
 export function setButtonLoading(button, isLoading, text, loadingText = 'Cargando...') {
    if (!button) return
+
    button.disabled = isLoading
-   button.textContent = isLoading ? loadingText `<span class="spinner-border spinner-border-sm me-2" 
-   aria-hidden="true"></span> ${loadingText}`
-   : text
+
+   if (isLoading) {
+      button.innerHTML = `
+         <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+         ${loadingText}
+      `
+   } else {
+      button.innerHTML = text
+   }
 }

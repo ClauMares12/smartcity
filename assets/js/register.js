@@ -1,4 +1,4 @@
-import { showAlert, setButtonLoading, registerUser,
+import { showAlert,hideAlert, setButtonLoading, registerUser,
      getFirebaseErrorMessage} from "./auth.js"
 
 const form = document.getElementById('registerForm')
@@ -8,14 +8,14 @@ const favoriteCityInput = document.getElementById('registerFavoriteCity')
 const passwordInput = document.getElementById('registerPassword')
 const confirmPasswordInput = document.getElementById('registerPasswordConfirm')
 const registerBtn = form.querySelector('button[type="submit"]') 
-const successAlert = document.getElementById('registerSuccessAlert')
+const successBox = document.getElementById('registerSuccessBox')
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault()
 
     hideAlert('registerAlert')
-    successAlert.classList.add('d-none')
-    successAlert.textContent = ''
+    // successBox?.classList.add('d-none')
+    // successBox?.textContent = ''
     
 
     const name = nameInput.value.trim()
@@ -44,13 +44,14 @@ form.addEventListener('submit', async (e) => {
     try {
     setButtonLoading(registerBtn, true, '<i class="bi bi-box-arrow-in-right me-2"></i> Crear cuenta',
         'Creando cuenta...')
+
     await registerUser({name, email, password, favoriteCity})
     
-    successAlert.classList.remove('d-none')
-    successAlert.textContent = 'Cuenta creada correctamente.'
+    //successBox?.classList.remove('d-none')
+    //successBox?.textContent = 'Cuenta creada correctamente.'
 
     setTimeout(() => {
-    window.location.href = './../../dashboard.html'
+    window.location.href = './../../login.html'
     },1200)
 
     } catch (error) {
