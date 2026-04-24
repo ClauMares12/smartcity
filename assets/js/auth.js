@@ -45,15 +45,14 @@ export async function registerUser({ name, email, password, favoriteCity }) {
 
   await setDoc(doc(db, "users", user.uid), {
     uid: user.uid,
-    name,
-    email,
-    favoriteCity: favoriteCity || "",
+    name: name || user.email.split("@")[0],
+    email: user.email,
+    favoriteCity: favoriteCity || "Leon",
     createdAt: serverTimestamp()
   });
 
   return user
 }
-
 
 // LOGIN
 export async function loginUser({ email, password }) {
@@ -61,11 +60,25 @@ export async function loginUser({ email, password }) {
   return credential.user
 }
 
-// PERFIL
-export async function getCurrentUserProfile(uid) {
+// PERFIL (AUTO-CREA SI NO EXISTE)
+export async function getCurrentUserProfile(uid, user) {
   const ref = doc(db, "users", uid);
   const snap = await getDoc(ref);
-  return snap.exists() ? snap.data() : null
+
+  if (snap.exists()) {
+    return snap.data();
+  } else {
+    const newProfile = {
+      uid: uid,
+      name: user.email?.split("@")[0] || "Usuario",
+      email: user.email || "",
+      favoriteCity: "Leon",
+      createdAt: serverTimestamp()
+    };
+
+    await setDoc(ref, newProfile);
+    return newProfile;
+  }
 }
 
 // OBSERVADOR
