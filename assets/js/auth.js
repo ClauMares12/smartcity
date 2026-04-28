@@ -9,6 +9,7 @@ import {
   doc,
   setDoc,
   getDoc,
+  updateDoc, // Agregado para actualizar el perfil
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js"
 
@@ -79,6 +80,15 @@ export async function getCurrentUserProfile(uid, user) {
     await setDoc(ref, newProfile);
     return newProfile;
   }
+}
+
+export async function updateCurrentUserProfile(uid,data) {
+  const user = doc (db, 'users', uid)
+  await updateDoc (user, {
+    ...data,
+    updateAt: serverTimestamp()
+  });
+  
 }
 
 // OBSERVADOR
